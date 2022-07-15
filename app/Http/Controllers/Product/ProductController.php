@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Constant\ValidatorMessage;
 
 
 class ProductController extends Controller
@@ -44,7 +45,7 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response([
                 'success' => false,
-                'message' => 'Product name is required.',
+                'message' => ValidatorMessage::NAME_REQUIRED,
             ], 400);
         }
 
