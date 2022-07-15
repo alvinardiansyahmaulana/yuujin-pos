@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Product\ProductController;
 
 
 /*
@@ -26,3 +27,5 @@ Route::post('/register', [UserAuthController::class, 'register']);
 Route::post('/login', [UserAuthController::class, 'login']);
 
 Route::apiResource('/category', CategoryController::class)->middleware('auth:api');
+
+Route::apiResource('/product', ProductController::class)->middleware('auth:api');

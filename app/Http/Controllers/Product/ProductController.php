@@ -1,27 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Category;
+namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
+use App\Models\Product;
+use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
-use App\Http\Resources\CategoryResource;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @returIc wawancara unactiveUndangann \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $categories = Category::all();
+        $products = Product::all();
+
         return response([
             'success' => true,
-            'message' => 'Categories Fetched.',
-            'data' => CategoryResource::collection($categories),
+            'message' => 'All product fetched.',
+            'data' => ProductResource::collection($products),
         ], 200);
     }
 
@@ -42,31 +44,31 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return response([
                 'success' => false,
-                'message' => 'Name is required.'
+                'message' => 'Product name is required.',
             ], 400);
         }
 
-        $category = Category::create($data);
+        $product = Product::create($data);
 
         return response([
             'success' => true,
-            'message' => 'Category created succesfully.',
-            'data' => $category,
+            'message' => 'Product created.',
+            'data' => $product,
         ], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Product $product)
     {
         return response([
             'success' => true,
-            'message' => 'Category fetched.',
-            'data' => new CategoryResource($category),
+            'message' => 'Product fetched.',
+            'data' => new ProductResource($product),
         ], 200);
     }
 
@@ -74,32 +76,33 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Product $product)
     {
-        $category->update($request->all());
+        $product->update($request->all());
+
         return response([
             'success' => true,
-            'message' => 'Category updated.',
-            'data' => new CategoryResource($category),
+            'message' => 'Product updated',
+            'data' => new ProductResource($product),
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Product $product)
     {
-        $category->delete();
+        $product->delete();
 
         return response([
             'success' => true,
-            'message' => 'Category deleted.'
-        ]);
+            'message' => 'Product deleted.'
+        ], 200);
     }
 }
