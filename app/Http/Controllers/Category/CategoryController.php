@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Http\Controllers\Category;
+
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Resources\CategoryResource;
+use Illuminate\Support\Facades\Validator;
+
+class CategoryController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @returIc wawancara unactiveUndangann \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $categories = Category::all();
+        return response([
+            'success' => true,
+            'message' => 'Categories Fetched.',
+            'data' => CategoryResource::collection($categories),
+        ], 200);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'name' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response([
+                'success' => false,
+                'message' => 'Name is required.'
+            ], 400);
+        }
+
+        $category = Category::create($data);
+
+        return response([
+            'success' => true,
+            'message' => 'Category created succesfully.',
+            'data' => $data,
+        ], 200);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Category $category)
+    {
+        return response([
+            'success' => true,
+            'message' => 'Category fetched.',
+            'data' => new CategoryResource($category),
+        ], 200);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Category $category)
+    {
+        $category->update($request->all());
+        return response([
+            'success' => true,
+            'message' => 'Category updated.',
+            'data' => new CategoryResource($category),
+        ], 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Category $category)
+    {
+        $category->delete();
+
+        return response([
+            'success' => true,
+            'message' => 'Category deleted.'
+        ]);
+    }
+}

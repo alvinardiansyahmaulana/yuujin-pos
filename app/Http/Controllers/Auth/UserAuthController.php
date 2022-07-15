@@ -24,8 +24,12 @@ class UserAuthController extends Controller
         $token = $user->createToken('API Token')->accessToken;
 
         return response([
-            'user' => $user,
-            'token' => $token,
+            'success' => true,
+            'message' => 'User created.',
+            'data' => [
+                'user' => $user,
+                'token' => $token,
+            ],
         ]);
     }
 
@@ -44,8 +48,12 @@ class UserAuthController extends Controller
         $token = auth()->user()->createToken('API Token')->accessToken;
 
         return response([
-            'user' => auth()->user(),
-            'token' => $token,
+            'success' => true,
+            'message' => 'Logged in.',
+            'data' => [
+                'user' => auth()->user(),
+                'token' => $token,
+            ],
         ]);
 
 
