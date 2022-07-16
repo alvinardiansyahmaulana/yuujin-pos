@@ -40,12 +40,15 @@ class ProductController extends Controller
 
         $validator = Validator::make($data, [
             'name' => 'required|max:255',
+            'price' => 'exclude_if:has_variant,false|required'
+        ], [
+            'required' => 'The :attribute field is required.'
         ]);
 
         if ($validator->fails()) {
             return response([
                 'success' => false,
-                'message' => ValidatorMessage::NAME_REQUIRED,
+                'message' => $validator->errors(),
             ], 400);
         }
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('price');
             $table->foreignId('category_id')->constraint('categories')->default(1);
+            $table->boolean('has_variant', [true, false])->default(false);
             $table->timestamps();
         });
     }
