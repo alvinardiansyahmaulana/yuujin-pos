@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Category;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Resources\CategoryResource;
+use App\Http\Requests\CategoryRequest;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -19,6 +19,7 @@ class CategoryController extends Controller
     public function index(): Response
     {
         $categories = Category::all();
+
         return response([
             'success' => true,
             'message' => 'Categories Fetched.',
@@ -32,21 +33,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): Response
+    public function store(CategoryRequest $request): Response
     {
-        $data = $request->all();
-
-        $validator = Validator::make($data, [
-            'name' => 'required|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return response([
-                'success' => false,
-                'message' => 'Name is required.'
-            ], 400);
-        }
-
+        $data = $request->validated();
         $category = Category::create($data);
 
         return response([
@@ -78,9 +67,11 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category): Response
+    public function update(CategoryRequest $request, Category $category): Response
     {
-        $category->update($request->all());
+        $data = $request->validated();
+        $category->update($data);
+        
         return response([
             'success' => true,
             'message' => 'Category updated.',

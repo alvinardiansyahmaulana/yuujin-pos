@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use App\Constant\ValidatorMessage;
@@ -18,7 +18,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
         $products = Product::all();
 
@@ -32,27 +32,12 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\ProductRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request): Response
     {
-        $data = $request->all();
-
-        $validator = Validator::make($data, [
-            'name' => 'required|max:255',
-            'price' => 'exclude_if:has_variant,false|required'
-        ], [
-            'required' => 'The :attribute field is required.'
-        ]);
-
-        if ($validator->fails()) {
-            return response([
-                'success' => false,
-                'message' => $validator->errors(),
-            ], 400);
-        }
-
+        $data = $request->validated();
         $product = Product::create($data);
 
         return response([
@@ -68,7 +53,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Product $product): Response
     {
         return response([
             'success' => true,
@@ -84,9 +69,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product): Response
     {
-        $product->update($request->all());
+        $data = $request->validated();
+        $product->update($data);
 
         return response([
             'success' => true,
@@ -101,7 +87,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): Response
     {
         $product->delete();
 

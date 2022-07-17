@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Variant;
 use App\Http\Resources\VariantResource;
-use Illuminate\Http\Request;
+use App\Http\Requests\VariantRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,28 +31,12 @@ class VariantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\VariantRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): Response
+    public function store(VariantRequest $request): Response
     {
-        $data = $request->all();
-
-        $validator = Validator::make(['product' => $data], [
-            'product.*.name' => 'required|max:255',
-            'product.*.price' => 'required',
-            'product.*.product_id' => 'required'
-        ], [
-            'product.*.required' => 'The :attribute field is required.'
-        ]);
-
-        if ($validator->fails()) {
-            return response([
-                'success' => 'false',
-                'message' => $validator->errors()
-            ], 400);
-        }
-
+        $data = $request->validated();
         $variants = collect();
 
         foreach ($data as $variant) {

@@ -22,7 +22,7 @@ class DefaultProductSeeder extends Seeder
                 'name' => 'Susu ' . $product,
                 'price' => 12000,
                 'category_id' => 2,
-                'has_variant' => $id % 2 == 0 ? true : false,
+                'has_variant' => $id % 2 != 0 ? true : false,
             ]);
         }
     }
