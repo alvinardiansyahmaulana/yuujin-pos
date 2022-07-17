@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Models\User;
 
 class UserAuthController extends Controller
 {
     
-    public function register (Request $request) {
+    public function register (Request $request): Response 
+    {
         $data = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
@@ -33,7 +35,8 @@ class UserAuthController extends Controller
         ]);
     }
 
-    public function login (Request $request) {
+    public function login (Request $request): Response 
+    {
         $data = $request->validate([
             'email' => 'email|required',
             'password' => 'required',

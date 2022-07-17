@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Category;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Resources\CategoryResource;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,7 +16,7 @@ class CategoryController extends Controller
      *
      * @returIc wawancara unactiveUndangann \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): Response
     {
         $categories = Category::all();
         return response([
@@ -31,7 +32,7 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         $data = $request->all();
 
@@ -61,7 +62,7 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show(Category $category): Response
     {
         return response([
             'success' => true,
@@ -77,7 +78,7 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Category $category): Response
     {
         $category->update($request->all());
         return response([
@@ -93,7 +94,7 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category): Response
     {
         $category->delete();
 

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Variant;
 use App\Http\Resources\VariantResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class VariantController extends Controller
@@ -16,7 +17,7 @@ class VariantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($product)
+    public function index($product): Response
     {
         $variants = Variant::where('product_id', $product)->get();
 
@@ -33,7 +34,7 @@ class VariantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): Response
     {
         $data = $request->all();
 
@@ -72,7 +73,7 @@ class VariantController extends Controller
      * @param  \App\Models\Variant  $variant
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product, Variant $variant)
+    public function show(Product $product, Variant $variant): Response
     {
         return response([
             'success' => true,
@@ -88,7 +89,7 @@ class VariantController extends Controller
      * @param  \App\Models\Variant  $variant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product, Variant $variant)
+    public function update(Request $request, Product $product, Variant $variant): Response
     {
         $variant->update($request->all());
 
@@ -105,7 +106,7 @@ class VariantController extends Controller
      * @param  \App\Models\Variant  $variant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product, Variant $variant)
+    public function destroy(Product $product, Variant $variant): Response
     {
         $variant->delete();
 
